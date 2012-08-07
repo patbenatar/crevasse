@@ -26,7 +26,7 @@ task "build:coffee", "Compile coffeescript files from src/coffee and join them i
   ]
   execute "coffee", options
 
-task "build:sass", "Compile sass files from src/sass and join them in lib/css", ->
+task "build:sass", "Compile sass from src/sass/crevasse.scss to lib/css/crevasse.css", ->
   options = [
     "--update"
     "src/sass/crevasse.scss:lib/css/crevasse.css"

@@ -112,6 +112,11 @@ If you would like to resize the elements with JavaScript, you will need to fire
 the `resize` event on the element you are resizing, whether that is the editor
 or the previewer or both.
 
+### Changing the value dynamically with JavaScript
+
+If you would like to change the value of the `textarea` without user interaction,
+simply fire the `change` event on the `textarea` and Crevasse will update the preview.
+
 ```javascript
 $("#your_previewer").trigger("resize")
 ```

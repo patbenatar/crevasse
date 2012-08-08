@@ -5,9 +5,9 @@ available as a jQuery plugin.
 
 ## Installation and Usage
 
-1. Grab the latest code from the `lib/` directory
-1. Download all dependency libraries (see below or available in `dependencies/`)
-1. Create an HTML element with a width and height (no support for flexible
+* Grab the latest code from the `lib/` directory
+* Download all dependency libraries (see below or available in `dependencies/`)
+* Create an HTML element with a width and height (no support for flexible
 dimensions yet)
 
 ```html
@@ -21,12 +21,13 @@ dimensions yet)
 }
 ```
 
-1. Initialize Crevasse on that container
+* Initialize Crevasse on that container
 
 ```javascript
 $("#crevasse_container").crevasse();
 ```
-1. Enjoy split-screen Markdown zen
+
+* Enjoy split-screen Markdown zen
 
 ## Dependencies
 

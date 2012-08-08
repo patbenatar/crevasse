@@ -54,7 +54,8 @@
   background-color: #fff;
   font-family: Helvetica,arial,freesans,clean,sans-serif;
   font-size: 13px;
-  line-height: 1.6; }
+  line-height: 1.6;
+  color: #000; }
   .crevasse_previewer > *:first-child {
     margin-top: 0 !important; }
   .crevasse_previewer > *:last-child {

@@ -63,7 +63,7 @@ complete.
 
 ```javascript
 {
-  previewer: null, // required
+  previewer: null, // required. jQuery object or selector string
   editorStyle: "default", // theme to use for editor
   usePreviewerReset: true, // reset CSS for previewer pane
   previewerStyle: "github" // theme to use for previewer

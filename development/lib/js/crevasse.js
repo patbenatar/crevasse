@@ -15,12 +15,10 @@
 
   Crevasse = (function() {
 
-    Crevasse.prototype.settings = {};
-
-    Crevasse.prototype.container = {
-      $el: null,
-      width: null,
-      height: null
+    Crevasse.prototype.settings = {
+      previewer: null,
+      useDefaultEditorStyle: true,
+      useDefaultPreviewerStyle: true
     };
 
     Crevasse.prototype.editor = null;
@@ -34,21 +32,16 @@
       this._onEditorChange = __bind(this._onEditorChange, this);
 
       this.options = $.extend({}, this.settings, options);
-      this.container.$el = $el;
-      this.container.width = $el.width();
-      this.container.height = $el.height();
-      this.container.$el.css("overflow", "hidden");
-      this.editor = new Crevasse.Editor(this.container.width / 2, this.container.height);
-      this.previewer = new Crevasse.Previewer(this.container.width / 2, this.container.height);
+      if (!$el.is("textarea")) {
+        throw "You must initialize on a textarea";
+      }
+      if (!this.options.previewer) {
+        throw "You must provide a previewer element via options";
+      }
+      this.editor = new Crevasse.Editor($el, this.options);
+      this.previewer = new Crevasse.Previewer(this.options.previewer, this.options);
       this.editor.on("change", this._onEditorChange, this);
-      this._insertIntoContainer();
     }
-
-    Crevasse.prototype._insertIntoContainer = function() {
-      this.container.$el.append(this.editor.getEl());
-      this.container.$el.append(this.previewer.getEl());
-      return this.container.$el.append(this.previewer.getOffsetDeterminer());
-    };
 
     Crevasse.prototype._onEditorChange = function() {
       return this.previewer.renderPreview(this.editor.getText(), this.editor.getCaretPosition());
@@ -60,56 +53,38 @@
 
   Crevasse.Editor = (function() {
 
-    Editor.prototype.PADDING = 20;
-
-    Editor.prototype.width = null;
-
-    Editor.prototype.height = null;
+    Editor.prototype.options = {};
 
     Editor.prototype.$el = null;
 
-    Editor.prototype.$textarea = null;
-
     Editor.prototype.text = null;
 
-    function Editor(width, height) {
-      this.width = width;
-      this.height = height;
-      this._onTextareaPaste = __bind(this._onTextareaPaste, this);
+    function Editor($el, options) {
+      this.$el = $el;
+      this.options = options;
+      this._onPaste = __bind(this._onPaste, this);
 
-      this._onTextareaInput = __bind(this._onTextareaInput, this);
+      this._onInput = __bind(this._onInput, this);
 
       _.extend(this, Backbone.Events);
-      this.$el = $("<div class='crevasse_editor crevasse_reset'>");
-      this.$textarea = $("<textarea>");
-      this.$el.css({
-        width: this.width,
-        height: this.height
-      });
-      this.$textarea.css({
-        width: this.width - this.PADDING * 2,
-        height: this.height - this.PADDING * 2,
-        padding: this.PADDING
-      });
-      this.$el.append(this.$textarea);
-      this.$textarea.bind("input", this._onTextareaInput);
-      this.$textarea.bind("paste", this._onTextareaPaste);
+      this.$el.addClass("crevasse_editor");
+      if (this.options.useDefaultEditorStyle) {
+        this.$el.addClass("default_theme");
+      }
+      this.$el.bind("input", this._onInput);
+      this.$el.bind("paste", this._onPaste);
       return this;
     }
 
-    Editor.prototype.getEl = function() {
-      return this.$el;
-    };
-
     Editor.prototype.getText = function() {
-      return this.$textarea.val();
+      return this.$el.val();
     };
 
     Editor.prototype.getCaretPosition = function() {
-      return this.$textarea.caret();
+      return this.$el.caret();
     };
 
-    Editor.prototype._onTextareaInput = function(event) {
+    Editor.prototype._onInput = function(event) {
       if (this.text === this.getText()) {
         return;
       }
@@ -117,10 +92,9 @@
       return this.trigger("change");
     };
 
-    Editor.prototype._onTextareaPaste = function(event) {
+    Editor.prototype._onPaste = function(event) {
       var _this = this;
       return setTimeout((function() {
-        console.log("here");
         return _this.trigger("change");
       }), 20);
     };
@@ -133,48 +107,39 @@
 
     Previewer.prototype.DIALECT = "Gruber";
 
-    Previewer.prototype.PADDING = 20;
-
-    Previewer.prototype.width = null;
-
-    Previewer.prototype.height = null;
+    Previewer.prototype.options = {};
 
     Previewer.prototype.$el = null;
 
+    Previewer.prototype.$previewer = null;
+
     Previewer.prototype.$offsetDeterminer = null;
 
-    function Previewer(width, height) {
-      this.width = width;
-      this.height = height;
-      this.$el = $("<div class='crevasse_previewer crevasse_reset'>");
-      this.$el.css({
-        width: this.width - this.PADDING * 2,
-        height: this.height - this.PADDING * 2,
-        padding: this.PADDING,
-        overflow: "scroll"
-      });
-      this.$offsetDeterminer = this.$el.clone();
+    function Previewer($el, options) {
+      this.$el = $el;
+      this.options = options;
+      this.$el.addClass("crevasse_reset");
+      this.$previewer = $("<div class='crevasse_previewer'>");
+      if (this.options.useDefaultPreviewerStyle) {
+        this.$previewer.addClass("github_theme");
+      }
+      this.$el.append(this.$previewer);
+      this.$offsetDeterminer = this.$previewer.clone();
       this.$offsetDeterminer.css({
+        width: this.$el.width(),
         height: "auto",
         position: "absolute",
         top: 0,
         left: -10000
       });
+      this.$el.append(this.$offsetDeterminer);
       return this;
     }
-
-    Previewer.prototype.getEl = function() {
-      return this.$el;
-    };
-
-    Previewer.prototype.getOffsetDeterminer = function() {
-      return this.$offsetDeterminer;
-    };
 
     Previewer.prototype.renderPreview = function(text, caretPosition) {
       var offset;
       offset = this._determineOffset(text.substr(0, caretPosition));
-      this.$el.html(markdown.toHTML(text, this.DIALECT));
+      this.$previewer.html(markdown.toHTML(text, this.DIALECT));
       if (offset < 0) {
         offset = 0;
       }
@@ -185,7 +150,7 @@
       var textHeight;
       this.$offsetDeterminer.html(markdown.toHTML(text, this.DIALECT));
       textHeight = this.$offsetDeterminer.outerHeight();
-      return textHeight - this.height / 2;
+      return textHeight - this.$el.height() / 2;
     };
 
     return Previewer;

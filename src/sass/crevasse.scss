@@ -44,23 +44,17 @@
   }
 }
 
-.crevasse_editor {
-  display: inline-block;
-  vertical-align: top;
-  textarea {
-    font-family: courier;
-    background-color: #042029;
-    color: #819090; //c9c9c9,7795f0
-    font-size: 12pt;
-    border: none;
-    outline: none;
-    resize: none;
-  }
+.crevasse_editor.default_theme {
+  font-family: courier;
+  background-color: #042029;
+  color: #819090; //c9c9c9,7795f0
+  font-size: 12pt;
+  border: none;
+  outline: none;
+  resize: none;
 }
 
-.crevasse_previewer {
-  display: inline-block;
-  vertical-align: top;
+.crevasse_previewer.github_theme {
   background-color: #fff;
   font-family: Helvetica,arial,freesans,clean,sans-serif;
   font-size: 13px;

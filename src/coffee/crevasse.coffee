@@ -1,11 +1,9 @@
 class Crevasse
 
-  settings: {}
-
-  container:
-    $el: null
-    width: null
-    height: null
+  settings:
+    previewer: null
+    useDefaultEditorStyle: true
+    useDefaultPreviewerStyle: true
 
   editor: null
   previewer: null
@@ -13,23 +11,13 @@ class Crevasse
   constructor: ($el, options = {}) ->
     @options = $.extend({}, @settings, options)
 
-    @container.$el = $el
-    @container.width = $el.width()
-    @container.height = $el.height()
+    throw "You must initialize on a textarea" unless $el.is("textarea")
+    throw "You must provide a previewer element via options" unless @options.previewer
 
-    @container.$el.css "overflow", "hidden"
-
-    @editor = new Crevasse.Editor(@container.width/2, @container.height)
-    @previewer = new Crevasse.Previewer(@container.width/2, @container.height)
+    @editor = new Crevasse.Editor($el, @options)
+    @previewer = new Crevasse.Previewer(@options.previewer, @options)
 
     @editor.on "change", @_onEditorChange, @
-
-    @_insertIntoContainer()
-
-  _insertIntoContainer: ->
-    @container.$el.append(@editor.getEl())
-    @container.$el.append(@previewer.getEl())
-    @container.$el.append(@previewer.getOffsetDeterminer())
 
   _onEditorChange: =>
     @previewer.renderPreview(

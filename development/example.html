@@ -14,18 +14,28 @@
   <!-- crevasse js lib -->
   <script type="text/javascript" src="lib/js/crevasse.js"></script>
   <style>
-    #crevasse_container {
-      width: 1000px;
+    #the_editor {
+      width: 500px;
       height: 600px;
+      display: inline-block;
+    }
+    #the_previewer {
+      width: 500px;
+      height: 600px;
+      display: inline-block;
+      overflow: scroll;
     }
   </style>
   <script type="text/javascript">
     $(function () {
-      $("#crevasse_container").crevasse();
+      $("#the_editor").crevasse({
+        previewer: $("#the_previewer")
+      });
     });
   </script>
 </head>
 <body>
-  <div id="crevasse_container"></div>
+  <textarea id="the_editor"></textarea>
+  <div id="the_previewer"></div>
 </body>
 </html>

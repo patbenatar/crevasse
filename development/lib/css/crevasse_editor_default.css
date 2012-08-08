@@ -1,0 +1,11 @@
+.crevasse_editor {
+  display: inline-block;
+  vertical-align: top; }
+  .crevasse_editor textarea {
+    font-family: courier;
+    background-color: #042029;
+    color: #819090;
+    font-size: 12pt;
+    border: none;
+    outline: none;
+    resize: none; }

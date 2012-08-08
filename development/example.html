@@ -14,16 +14,23 @@
   <!-- crevasse js lib -->
   <script type="text/javascript" src="lib/js/crevasse.js"></script>
   <style>
-    #the_editor {
-      width: 500px;
-      height: 600px;
+    .editor_container, .previewer_container {
+      width: 50%;
       display: inline-block;
+      vertical-align: top;
+    }
+    .editor_padding {
+      padding: 20px;
+      background: #042029;
+    }
+    #the_editor {
+      width: 100%;
+      height: 600px;
     }
     #the_previewer {
-      width: 500px;
       height: 600px;
-      display: inline-block;
       overflow: scroll;
+      padding: 20px;
     }
   </style>
   <script type="text/javascript">
@@ -35,7 +42,13 @@
   </script>
 </head>
 <body>
-  <textarea id="the_editor"></textarea>
-  <div id="the_previewer"></div>
+  <div class="editor_container">
+    <div class="editor_padding">
+      <textarea id="the_editor"></textarea>
+    </div>
+  </div
+  ><div class="previewer_container">
+    <div id="the_previewer"></div>
+  </div>
 </body>
 </html>

@@ -2,29 +2,38 @@ class Crevasse.Previewer
 
   DIALECT: "Gruber" # Maruku, Gruber
 
-  options: {}
+  options: null
 
   $el: null
   $previewer: null
   $offsetDeterminer: null
 
+  height: null
+  width: null
+
   constructor: (@$el, @options) ->
 
-    @$el.addClass("crevasse_reset")
+    @$el.addClass("crevasse_reset") if @options.usePreviewerReset
+
+    @_getDimensions()
 
     @$previewer = $("<div class='crevasse_previewer'>")
-    @$previewer.addClass("github_theme") if @options.useDefaultPreviewerStyle
+    @$previewer.addClass(@_theme())
     @$el.append(@$previewer)
 
     @$offsetDeterminer = @$previewer.clone()
     @$offsetDeterminer.css
-      width: @$el.width()
+      width: @width
       height: "auto"
       position: "absolute"
       top: 0
       left: -10000
 
     @$el.append(@$offsetDeterminer)
+
+    # Listen for resizes and update dimensions accordingly
+    @$el.bind("resize", @_onResize)
+    $(window).bind("resize", @_onResize)
 
     return @
 
@@ -34,7 +43,23 @@ class Crevasse.Previewer
     offset = 0 if offset < 0
     @$el.scrollTo(offset, 0)
 
+  _theme: ->
+    switch @options.previewerStyle
+      when "github" then return "github_theme"
+      else return @options.previewerStyle
+
   _determineOffset: (text) ->
     @$offsetDeterminer.html markdown.toHTML(text, @DIALECT)
     textHeight = @$offsetDeterminer.outerHeight()
-    return textHeight - @$el.height() / 2
+    return textHeight - @height / 2
+
+  _onResize: (event) =>
+    @_getDimensions()
+    @_updateOffsetDeterminerDimensions()
+
+  _getDimensions: ->
+    @width = @$el.width()
+    @height = @$el.height()
+
+  _updateOffsetDeterminerDimensions: ->
+    @$offsetDeterminer.width(@width)

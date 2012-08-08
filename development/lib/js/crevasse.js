@@ -17,8 +17,9 @@
 
     Crevasse.prototype.settings = {
       previewer: null,
-      useDefaultEditorStyle: true,
-      useDefaultPreviewerStyle: true
+      editorStyle: "default",
+      usePreviewerReset: true,
+      previewerStyle: "github"
     };
 
     Crevasse.prototype.editor = null;
@@ -53,7 +54,7 @@
 
   Crevasse.Editor = (function() {
 
-    Editor.prototype.options = {};
+    Editor.prototype.options = null;
 
     Editor.prototype.$el = null;
 
@@ -68,9 +69,7 @@
 
       _.extend(this, Backbone.Events);
       this.$el.addClass("crevasse_editor");
-      if (this.options.useDefaultEditorStyle) {
-        this.$el.addClass("default_theme");
-      }
+      this.$el.addClass(this._theme());
       this.$el.bind("input", this._onInput);
       this.$el.bind("paste", this._onPaste);
       return this;
@@ -82,6 +81,15 @@
 
     Editor.prototype.getCaretPosition = function() {
       return this.$el.caret();
+    };
+
+    Editor.prototype._theme = function() {
+      switch (this.options.editorStyle) {
+        case "default":
+          return "default_theme";
+        default:
+          return this.options.editorStyle;
+      }
     };
 
     Editor.prototype._onInput = function(event) {
@@ -107,7 +115,7 @@
 
     Previewer.prototype.DIALECT = "Gruber";
 
-    Previewer.prototype.options = {};
+    Previewer.prototype.options = null;
 
     Previewer.prototype.$el = null;
 
@@ -115,24 +123,33 @@
 
     Previewer.prototype.$offsetDeterminer = null;
 
+    Previewer.prototype.height = null;
+
+    Previewer.prototype.width = null;
+
     function Previewer($el, options) {
       this.$el = $el;
       this.options = options;
-      this.$el.addClass("crevasse_reset");
-      this.$previewer = $("<div class='crevasse_previewer'>");
-      if (this.options.useDefaultPreviewerStyle) {
-        this.$previewer.addClass("github_theme");
+      this._onResize = __bind(this._onResize, this);
+
+      if (this.options.usePreviewerReset) {
+        this.$el.addClass("crevasse_reset");
       }
+      this._getDimensions();
+      this.$previewer = $("<div class='crevasse_previewer'>");
+      this.$previewer.addClass(this._theme());
       this.$el.append(this.$previewer);
       this.$offsetDeterminer = this.$previewer.clone();
       this.$offsetDeterminer.css({
-        width: this.$el.width(),
+        width: this.width,
         height: "auto",
         position: "absolute",
         top: 0,
         left: -10000
       });
       this.$el.append(this.$offsetDeterminer);
+      this.$el.bind("resize", this._onResize);
+      $(window).bind("resize", this._onResize);
       return this;
     }
 
@@ -146,11 +163,34 @@
       return this.$el.scrollTo(offset, 0);
     };
 
+    Previewer.prototype._theme = function() {
+      switch (this.options.previewerStyle) {
+        case "github":
+          return "github_theme";
+        default:
+          return this.options.previewerStyle;
+      }
+    };
+
     Previewer.prototype._determineOffset = function(text) {
       var textHeight;
       this.$offsetDeterminer.html(markdown.toHTML(text, this.DIALECT));
       textHeight = this.$offsetDeterminer.outerHeight();
-      return textHeight - this.$el.height() / 2;
+      return textHeight - this.height / 2;
+    };
+
+    Previewer.prototype._onResize = function(event) {
+      this._getDimensions();
+      return this._updateOffsetDeterminerDimensions();
+    };
+
+    Previewer.prototype._getDimensions = function() {
+      this.width = this.$el.width();
+      return this.height = this.$el.height();
+    };
+
+    Previewer.prototype._updateOffsetDeterminerDimensions = function() {
+      return this.$offsetDeterminer.width(this.width);
     };
 
     return Previewer;

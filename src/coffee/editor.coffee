@@ -1,6 +1,6 @@
 class Crevasse.Editor
 
-  options: {}
+  options: null
   $el: null
   text: null
 
@@ -8,7 +8,7 @@ class Crevasse.Editor
     _.extend @, Backbone.Events
 
     @$el.addClass("crevasse_editor")
-    @$el.addClass("default_theme") if @options.useDefaultEditorStyle
+    @$el.addClass(@_theme())
 
     @$el.bind "input", @_onInput
     @$el.bind "paste", @_onPaste
@@ -20,6 +20,11 @@ class Crevasse.Editor
 
   getCaretPosition: ->
     @$el.caret()
+
+  _theme: ->
+    switch @options.editorStyle
+      when "default" then return "default_theme"
+      else return @options.editorStyle
 
   _onInput: (event) =>
     return if @text == @getText()

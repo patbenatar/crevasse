@@ -2,8 +2,9 @@ class Crevasse
 
   settings:
     previewer: null
-    useDefaultEditorStyle: true
-    useDefaultPreviewerStyle: true
+    editorStyle: "default"
+    usePreviewerReset: true
+    previewerStyle: "github"
 
   editor: null
   previewer: null

@@ -11,24 +11,27 @@ http://patbenatar.github.com/crevasse
 
 * Grab the latest code from the `lib/` directory
 * Download all dependency libraries (see below or available in `dependencies/`)
-* Create an HTML element with a width and height (no support for flexible
-dimensions yet)
+* Create a `textarea` for the editor and any element for the previewer.
 
 ```html
-<div id="crevasse_container"></div>
+<textarea id="your_editor"></textarea>
+<div id="your_previewer"></div>
 ```
 
 ```css
-#crevasse_container {
-  width: 1000px;
+#your_editor, #your_previewer {
+  width: 500px;
   height: 600px;
+  display: inline-block;
 }
 ```
 
-* Initialize Crevasse on that container
+* Initialize Crevasse on the textarea and pass the previewer as an option
 
 ```javascript
-$("#crevasse_container").crevasse();
+$("#your_editor").crevasse({
+  previewer: $("#your_previewer")
+});
 ```
 
 * Enjoy split-screen Markdown zen
@@ -54,11 +57,61 @@ wants to do this, that'd be appreciated.
 Markdown parser, but its support for Github's \`\`\` code blocks is not yet
 complete.
 
+## Advanced usage
+
+### Options (shown with defaults)
+
+```javascript
+{
+  previewer: null, // required
+  editorStyle: "default", // theme to use for editor
+  usePreviewerReset: true, // reset CSS for previewer pane
+  previewerStyle: "github" // theme to use for previewer
+}
+```
+
+### Custom themes
+
+Crevasse comes with default themes for the editor and previewer. If you'd like,
+you can customize the appearance of both.
+
+##### Editor theme
+
+Out of the box, the editor uses the `default` theme. This is controlled via the
+`editorStyle` option. If you'd like to use a custom theme, simply set `editorStyle`
+to a CSS class of your own.
+
+##### Previewer theme
+
+Out of the box, the previewer uses the `github` theme. The rendered Markdown
+will be styled the same as what you are used to seeing on GitHub. You can
+customize this via the `previewerStyle` option. If you'd like to use a custom
+theme, simply set `previewerStyle` to a CSS class of your own.
+
+### Support for flexible dimensions
+
+Crevasse fully supports changing the dimensions of the editor or previewer at
+any time.
+
+##### Percentage dimensions and window resize
+
+This comes out of the box. Crevasse listens for window resize events and updates
+itself accordingly.
+
+##### Resizing the elements dynamically with JavaScript
+
+If you would like to resize the elements with JavaScript, you will need to fire
+the `resize` event on the element you are resizing, whether that is the editor
+or the previewer or both.
+
+```javascript
+$("#your_previewer").trigger("resize")
+```
+
 ## Wishlist
 
 Some ideas planned for the future...
 
-* Support for flexible dimensions on the container element
 * Complete the github\_flavored\_markdown.js lib
 
 ## Contributing

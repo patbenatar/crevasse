@@ -24,6 +24,9 @@ class Crevasse
 
     @editor.on "change", @_onEditorChange, @
 
+    # Handle initial value in editor textarea
+    @_onEditorChange() unless @editor.getText() == ""
+
   _onEditorChange: =>
     @previewer.renderPreview(
       @editor.getText(),

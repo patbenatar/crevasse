@@ -45,6 +45,9 @@
       this.editor = new Crevasse.Editor($el, this.options);
       this.previewer = new Crevasse.Previewer(this.options.previewer, this.options);
       this.editor.on("change", this._onEditorChange, this);
+      if (this.editor.getText() !== "") {
+        this._onEditorChange();
+      }
     }
 
     Crevasse.prototype._onEditorChange = function() {

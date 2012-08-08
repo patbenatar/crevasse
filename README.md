@@ -7,6 +7,14 @@ available as a jQuery plugin.
 
 http://patbenatar.github.com/crevasse
 
+## Features
+
+* Edit Markdown in one pane and see the preview update live in another
+* Preview automatically scrolls to keep the user centered on what they are editing
+* Supports flexible dimensions as well as dynamically changing dimensions with JavaScript
+* Comes with default themes (shown here) and supports custom themes
+* The raw Markdown is stored and edited in a simple textarea, making it easy to integrate with existing forms and backends
+
 ## Installation and Usage
 
 * Grab the latest code from the `lib/` directory

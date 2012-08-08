@@ -11,27 +11,49 @@ COFFEE_FILES = [
 ]
 
 task "build", "Package Crevasse for distribution", ->
-  invoke "build:coffee"
-  invoke "build:sass"
+  # Read version number
+  fs.readFile 'VERSION', 'utf8', (err, data) ->
+    throw err if err
+    version = data
+    emptyLib()
+    compileCoffee(false, version)
+    compileSass(false, version)
+    gitTag(version)
 
-task "build:coffee", "Compile coffeescript files from src/coffee and join them in lib/js", ->
-  srcFiles = "src/coffee/#{file}" for file in COFFEE_FILES
+task "build:development", "Watch for changes in src and update development package", ->
+  compileCoffee(true)
+  compileSass(true)
+
+emptyLib = ->
+  execute "rm", ["-r", "lib"]
+
+compileCoffee = (development, version = null) ->
+  behavior = if development then "-w" else "-c"
+  outputPath = if development then "development/lib/js" else "lib/js"
+  outputFilename = if version then "crevasse-#{version}.js" else "crevasse.js"
   options = [
     "-j",
-    "crevasse.js",
-    "-c",
+    outputFilename,
+    behavior,
     "-o",
-    "lib/js",
-    srcFiles
+    outputPath
   ]
+  # Add files to compile in proper order
+  options.push "src/coffee/#{file}" for file in COFFEE_FILES
   execute "coffee", options
 
-task "build:sass", "Compile sass from src/sass/crevasse.scss to lib/css/crevasse.css", ->
+compileSass = (development, version = null) ->
+  behavior = if development then "--watch" else "--update"
+  outputPath = if development then "development/lib/css" else "lib/css"
+  outputFilename = if version then "crevasse-#{version}.css" else "crevasse.css"
   options = [
-    "--update"
-    "src/sass/crevasse.scss:lib/css/crevasse.css"
+    behavior,
+    "src/sass/crevasse.scss:#{outputPath}/#{outputFilename}"
   ]
   execute "sass", options
+
+gitTag = (version) ->
+  execute "git", ["tag", version]
 
 execute = (command, options) ->
   command = spawn command, options

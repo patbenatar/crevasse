@@ -23,15 +23,26 @@ header a {
 }
 
 .editor_wrapper {
-  width: 1000px;
-  padding: 10px;
-  margin: 0 auto;
-  background-color: #3a4147;
-  border-radius: 8px;
+  width: 100%;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
 }
 
-#crevasse_container {
-  width: 1000px;
+.editor_container, .previewer_container {
+  width: 50%;
+  display: inline-block;
+  vertical-align: top;
+}
+.editor_padding {
+  padding: 20px;
+  background: #042029;
+}
+#the_editor {
+  width: 100%;
   height: 600px;
-  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+#the_previewer {
+  height: 600px;
+  overflow: scroll;
+  padding: 20px;
+  background: #fff;
 }

@@ -2,8 +2,6 @@
 <html>
 <head>
   <title>Crevasse: A simple split-screen Markdown editor.</title>
-  <!-- crevasse styles -->
-  <link href="css/crevasse-0.1.0.css" media="screen" rel="stylesheet" type="text/css" />
   <!-- dependencies -->
   <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
   <script type="text/javascript" src="js/underscore.js"></script>
@@ -12,12 +10,16 @@
   <script type="text/javascript" src="js/jquery.scrollTo.min.js"></script>
   <script type="text/javascript" src="js/github_flavored_markdown.js"></script>
   <!-- crevasse js lib -->
-  <script type="text/javascript" src="js/crevasse-0.1.0.js"></script>
+  <script type="text/javascript" src="js/crevasse-0.2.0.js"></script>
+  <!-- crevasse styles -->
+  <link href="css/crevasse-0.2.0.css" media="screen" rel="stylesheet" type="text/css" />
   <!-- app styles -->
   <link href="css/application.css" media="screen" rel="stylesheet" type="text/css" />
   <script type="text/javascript">
     $(function () {
-      $("#crevasse_container").crevasse();
+      $("#the_editor").crevasse({
+        previewer: $("#the_previewer")
+      });
     });
   </script>
 </head>
@@ -28,7 +30,14 @@
     <nav><a href="http://github.com/patbenatar/crevasse">View source and download on GitHub</a></nav>
   </header>
   <div class="editor_wrapper">
-    <div id="crevasse_container"></div>
+    <div class="editor_container">
+      <div class="editor_padding">
+        <textarea id="the_editor"></textarea>
+      </div>
+    </div
+    ><div class="previewer_container">
+      <div id="the_previewer"></div>
+    </div>
   </div>
 </body>
 </html>

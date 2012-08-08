@@ -1,15 +1,25 @@
 body {
   background-color: #121212;
+  font-family: courier;
+  color: #fff;
 }
 
 header {
   text-align: center;
+  margin-bottom: 40px;
 }
 
 header h1 {
   color: #54ad9c;
-  font-size: 1em;
-  font-family: courier;
+  font-size: 2em;
+}
+
+header p {
+
+}
+
+header a {
+  color: #92b300;
 }
 
 .editor_wrapper {
@@ -20,7 +30,7 @@ header h1 {
   border-radius: 8px;
 }
 
-.editor {
+#crevasse_container {
   width: 1000px;
   height: 600px;
   box-shadow: 0 0 5px rgba(0,0,0,0.5);

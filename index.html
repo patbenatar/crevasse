@@ -3,22 +3,18 @@
 <head>
   <title>Crevasse Demo</title>
   <!-- crevasse styles -->
-  <link href="lib/css/crevasse.css" media="screen" rel="stylesheet" type="text/css" />
+  <link href="css/crevasse-0.1.0.css" media="screen" rel="stylesheet" type="text/css" />
   <!-- dependencies -->
-  <script type="text/javascript" src="../dependencies/jquery-1.7.2.min.js"></script>
-  <script type="text/javascript" src="../dependencies/underscore.js"></script>
-  <script type="text/javascript" src="../dependencies/backbone.js"></script>
-  <script type="text/javascript" src="../dependencies/jquery.caret.js"></script>
-  <script type="text/javascript" src="../dependencies/jquery.scrollTo.min.js"></script>
-  <script type="text/javascript" src="../dependencies/github_flavored_markdown.js"></script>
+  <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="js/underscore.js"></script>
+  <script type="text/javascript" src="js/backbone.js"></script>
+  <script type="text/javascript" src="js/jquery.caret.js"></script>
+  <script type="text/javascript" src="js/jquery.scrollTo.min.js"></script>
+  <script type="text/javascript" src="js/github_flavored_markdown.js"></script>
   <!-- crevasse js lib -->
-  <script type="text/javascript" src="lib/js/crevasse.js"></script>
-  <style>
-    #crevasse_container {
-      width: 1000px;
-      height: 600px;
-    }
-  </style>
+  <script type="text/javascript" src="js/crevasse-0.1.0.js"></script>
+  <!-- app styles -->
+  <link href="css/application.css" media="screen" rel="stylesheet" type="text/css" />
   <script type="text/javascript">
     $(function () {
       $("#crevasse_container").crevasse();
@@ -26,6 +22,13 @@
   </script>
 </head>
 <body>
-  <div id="crevasse_container"></div>
+  <header>
+    <h1>Crevasse</h1>
+    <p>A simple split-screen Markdown editor.</p>
+    <nav><a href="http://github.com/patbenatar/crevasse">View source and download on GitHub</a></nav>
+  </header>
+  <div class="editor_wrapper">
+    <div id="crevasse_container"></div>
+  </div>
 </body>
 </html>

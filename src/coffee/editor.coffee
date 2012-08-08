@@ -10,7 +10,7 @@ class Crevasse.Editor
     @$el.addClass("crevasse_editor")
     @$el.addClass(@_theme())
 
-    @$el.bind "input", @_onInput
+    @$el.bind "#{@_inputEventName()} change", @_onInput
     @$el.bind "paste", @_onPaste
 
     return @
@@ -36,3 +36,17 @@ class Crevasse.Editor
     setTimeout (=>
       @trigger "change"
     ), 20
+
+  _inputEventName: ->
+    return "input" if @_supportsInputEvent()
+    return "keydown"
+
+  _supportsInputEvent: ->
+    el = document.createElement('textarea')
+    eventName = "oninput";
+    isSupported = (eventName in el)
+    unless isSupported
+      el.setAttribute(eventName, 'return;')
+      isSupported = typeof el[eventName] == 'function'
+    el = null
+    return isSupported

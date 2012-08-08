@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crevasse Demo</title>
+  <!-- crevasse styles -->
+  <link href="lib/css/crevasse.css" media="screen" rel="stylesheet" type="text/css" />
+  <!-- dependencies -->
+  <script type="text/javascript" src="../dependencies/jquery-1.7.2.min.js"></script>
+  <script type="text/javascript" src="../dependencies/underscore.js"></script>
+  <script type="text/javascript" src="../dependencies/backbone.js"></script>
+  <script type="text/javascript" src="../dependencies/jquery.caret.js"></script>
+  <script type="text/javascript" src="../dependencies/jquery.scrollTo.min.js"></script>
+  <script type="text/javascript" src="../dependencies/github_style_markdown.js"></script>
+  <!-- crevasse js lib -->
+  <script type="text/javascript" src="lib/js/crevasse.js"></script>
+  <style>
+    #crevasse_container {
+      width: 1000px;
+      height: 600px;
+    }
+  </style>
+  <script type="text/javascript">
+    $(function () {
+      $("#crevasse_container").crevasse();
+    });
+  </script>
+</head>
+<body>
+  <div id="crevasse_container"></div>
+</body>
+</html>

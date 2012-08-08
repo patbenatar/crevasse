@@ -56,3 +56,14 @@ Some ideas planned for the future...
 
 * Support for flexible dimensions on the container element
 * Complete the github\_flavored\_markdown.js lib
+
+## Contributing
+
+1. Fork and clone your fork
+1. Run `$ cake build:development` to automatically compile changes made in `src/` to `development/lib/`
+1. Make changes to the library files in `src/`
+1. Test those changes in `development/example.html`
+1. Pull request!
+
+If you'd like to build your own package for release, you can edit the version number
+in `VERSION` and run `$ cake build` to version and compile to `lib/`

@@ -3,6 +3,10 @@
 Crevasse is a simple split-screen Markdown editor written in CoffeeScript. It's
 available as a jQuery plugin.
 
+## Demo
+
+http://patbenatar.github.com/crevasse
+
 ## Installation and Usage
 
 * Grab the latest code from the `lib/` directory

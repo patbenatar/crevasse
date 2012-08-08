@@ -1,0 +1,27 @@
+body {
+  background-color: #121212;
+}
+
+header {
+  text-align: center;
+}
+
+header h1 {
+  color: #54ad9c;
+  font-size: 1em;
+  font-family: courier;
+}
+
+.editor_wrapper {
+  width: 1000px;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: #3a4147;
+  border-radius: 8px;
+}
+
+.editor {
+  width: 1000px;
+  height: 600px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}

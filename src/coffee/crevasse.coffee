@@ -15,6 +15,10 @@ class Crevasse
     throw "You must initialize on a textarea" unless $el.is("textarea")
     throw "You must provide a previewer element via options" unless @options.previewer
 
+    # Get jQuery object for previewer if initialized as selector string
+    if typeof @options.previewer == "string"
+      @options.previewer = $(@options.previewer)
+
     @editor = new Crevasse.Editor($el, @options)
     @previewer = new Crevasse.Previewer(@options.previewer, @options)
 

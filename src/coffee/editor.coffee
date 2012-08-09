@@ -15,11 +15,9 @@ class Crevasse.Editor
 
     return @
 
-  getText: ->
-    @$el.val()
+  getText: -> @$el.val()
 
-  getCaretPosition: ->
-    @$el.caret()
+  getCaretPosition: -> @$el.caret()
 
   _theme: ->
     switch @options.editorStyle

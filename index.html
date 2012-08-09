@@ -17,25 +17,34 @@
   <link href="css/application.css" media="screen" rel="stylesheet" type="text/css" />
   <script type="text/javascript">
     $(function () {
-      $("#the_editor").crevasse({
-        previewer: $("#the_previewer")
+      var $editor = $("#the_editor");
+      var $previewer = $("#the_previewer")
+      $editor.crevasse({
+        previewer: $previewer
       });
+
+      var setSize = function () {
+        windowHeight = $(window).height();
+        editorPadding = $editor.outerHeight() - $editor.height();
+        $editor.height(windowHeight - editorPadding);
+        previewerPadding = $previewer.outerHeight() - $previewer.height();
+        $previewer.height(windowHeight - previewerPadding);
+      };
+
+      setSize();
+
+      $(window).resize(setSize);
+
     });
   </script>
 </head>
 <body>
-  <header>
-    <h1>Crevasse</h1>
-    <p>A simple split-screen Markdown editor.</p>
-    <nav><a href="http://github.com/patbenatar/crevasse">View source and download on GitHub</a></nav>
-  </header>
   <div class="editor_wrapper">
     <div class="editor_container">
       <div class="editor_padding">
-        <textarea id="the_editor">
-# Crevasse
+        <textarea id="the_editor"># Crevasse
 
-Crevasse is a simple split-screen Markdown editor written in CoffeeScript. It's available as a jQuery plugin.
+Crevasse is a simple Markdown editor with a live preview. It's written in CoffeeScript and available as a jQuery plugin.
 
 ## Get it
 [View source and download on GitHub](http://github.com/patbenatar/crevasse)
@@ -43,11 +52,11 @@ Crevasse is a simple split-screen Markdown editor written in CoffeeScript. It's 
 ## Features
 
 * Edit Markdown in one pane and see the preview update live in another
+* Built for custom interfaces and layouts. You specify the editor and the previewer elements, what you see on this page is just one implementation
 * Preview automatically scrolls to keep the user centered on what they are editing
 * Supports flexible dimensions as well as dynamically changing dimensions with JavaScript
 * Comes with default themes (shown here) and supports custom themes
-* The raw Markdown is stored and edited in a simple textarea, making it easy to integrate with existing forms and backends
-        </textarea>
+* The raw Markdown is stored and edited in a simple textarea, making it easy to integrate with existing forms and backends</textarea>
       </div>
     </div
     ><div class="previewer_container">

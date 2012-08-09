@@ -21,7 +21,7 @@ task "build", "Package Crevasse for distribution", ->
 task "build:tag", "Tag the git repo with the version number", ->
   fs.readFile 'VERSION', 'utf8', (err, data) ->
     throw err if err
-    execute "git", ["tag", version]
+    execute "git", ["tag", data]
 
 task "build:development", "Watch for changes in src and update development package", ->
   compileCoffee(true)

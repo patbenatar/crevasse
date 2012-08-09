@@ -41,6 +41,7 @@ class Crevasse.Editor
     return "input" if @_supportsInputEvent()
     return "keydown"
 
+  # Check if the browser supports the `input` event
   _supportsInputEvent: ->
     el = document.createElement('textarea')
     eventName = "oninput";

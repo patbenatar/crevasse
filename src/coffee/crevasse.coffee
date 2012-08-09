@@ -30,7 +30,7 @@ class Crevasse
   _onEditorChange: => @_updatePreview()
 
   _updatePreview: ->
-    @previewer.renderPreview(
+    @previewer.render(
       @editor.getText(),
       @editor.getCaretPosition()
     )

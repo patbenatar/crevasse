@@ -36,7 +36,7 @@ class Crevasse.Previewer
 
     return @
 
-  renderPreview: (text, caretPosition) ->
+  render: (text, caretPosition) ->
     offset = @_determineOffset text.substr(0, caretPosition)
     @$previewer.html markdown.toHTML(text, @DIALECT)
     offset = 0 if offset < 0

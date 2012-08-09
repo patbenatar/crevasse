@@ -11,14 +11,17 @@ COFFEE_FILES = [
 ]
 
 task "build", "Package Crevasse for distribution", ->
-  # Read version number
   fs.readFile 'VERSION', 'utf8', (err, data) ->
     throw err if err
     version = data
     emptyLib()
     compileCoffee(false, version)
     compileSass(false, version)
-    gitTag(version)
+
+task "build:tag", "Tag the git repo with the version number", ->
+  fs.readFile 'VERSION', 'utf8', (err, data) ->
+    throw err if err
+    gitTag(data)
 
 task "build:development", "Watch for changes in src and update development package", ->
   compileCoffee(true)

@@ -32,8 +32,7 @@ class Crevasse.Previewer
     @$el.append(@$offsetDeterminer)
 
     # Listen for resizes and update dimensions accordingly
-    @$el.bind("resize", @_onResize)
-    $(window).bind("resize", @_onResize)
+    @$el.bind("crevasse.resize", @_onResize)
 
     return @
 

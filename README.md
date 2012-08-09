@@ -103,19 +103,19 @@ theme, simply set `previewerStyle` to a CSS class of your own.
 
 ### Support for flexible dimensions
 
-Crevasse fully supports changing the dimensions of the editor or previewer at
-any time.
+If at any time the dimensions of the previewer or editor change, whether with
+JavaScript or a window resize, you will need to fire the `crevasse.resize` event
+on the corresponding element (your editor or previewer or both).
 
-##### Percentage dimensions and window resize
+```javascript
+// Resize with window resize
+$(window).resize(function () {
+  $("#your_previewer").trigger("crevasse.resize");
+});
 
-This comes out of the box. Crevasse listens for window resize events and updates
-itself accordingly.
-
-##### Resizing the elements dynamically with JavaScript
-
-If you would like to resize the elements with JavaScript, you will need to fire
-the `resize` event on the element you are resizing, whether that is the editor
-or the previewer or both.
+// Resize manually
+$("#your_previewer").width(400).trigger("crevasse.resize");
+```
 
 ### Changing the value dynamically with JavaScript
 
@@ -123,12 +123,10 @@ If you would like to change the value of the `textarea` without user interaction
 simply fire the `change` event on the `textarea` and Crevasse will update the preview.
 
 ```javascript
-$("#your_previewer").trigger("resize")
+$("#your_editor").val("Some new value").trigger("change");
 ```
 
 ## Wishlist
-
-Some ideas planned for the future...
 
 * Complete the github\_flavored\_markdown.js lib
 

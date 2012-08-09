@@ -8,8 +8,8 @@ class Crevasse.Previewer
   $previewer: null
   $offsetDeterminer: null
 
-  height: null
   width: null
+  height: null
 
   constructor: (@$el, @options) ->
 
@@ -21,6 +21,8 @@ class Crevasse.Previewer
     @$previewer.addClass(@_theme())
     @$el.append(@$previewer)
 
+    # Create a clone off-screen, without a fix height, to use for determining
+    # the offset to scroll the previewer pane to
     @$offsetDeterminer = @$previewer.clone()
     @$offsetDeterminer.css
       width: @width
@@ -36,11 +38,15 @@ class Crevasse.Previewer
 
     return @
 
-  render: (text, caretPosition) ->
-    offset = @_determineOffset text.substr(0, caretPosition)
+  render: (text, caretPosition = null) ->
     @$previewer.html markdown.toHTML(text, @DIALECT)
-    offset = 0 if offset < 0
-    @$el.scrollTo(offset, 0)
+    if caretPosition
+      offset = @_determineOffset text.substr(0, caretPosition)
+      offset = 0 if offset < 0
+      try
+        @$el.scrollTo(offset, 0)
+      catch error
+        # @$el is not scrollable
 
   _theme: ->
     switch @options.previewerStyle

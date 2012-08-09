@@ -189,7 +189,7 @@
         caretPosition = null;
       }
       this.$previewer.html(markdown.toHTML(text, this.DIALECT));
-      if (caretPosition) {
+      if (caretPosition != null) {
         offset = this._determineOffset(text.substr(0, caretPosition));
         if (offset < 0) {
           offset = 0;

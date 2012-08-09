@@ -1,7 +1,7 @@
 fs = require 'fs'
 
 {print} = require 'util'
-{spawn} = require 'child_process'
+{spawn, exec} = require 'child_process'
 
 COFFEE_FILES = [
   "jquery.crevasse.coffee",
@@ -21,7 +21,7 @@ task "build", "Package Crevasse for distribution", ->
 task "build:tag", "Tag the git repo with the version number", ->
   fs.readFile 'VERSION', 'utf8', (err, data) ->
     throw err if err
-    gitTag(data)
+    execute "git", ["tag", version]
 
 task "build:development", "Watch for changes in src and update development package", ->
   compileCoffee(true)
@@ -33,7 +33,7 @@ emptyLib = ->
 compileCoffee = (development, version = null) ->
   behavior = if development then "-w" else "-c"
   outputPath = if development then "development/lib/js" else "lib/js"
-  outputFilename = if version then "crevasse-#{version}.js" else "crevasse.js"
+  outputFilename = "crevasse.js"
   options = [
     "-j",
     outputFilename,
@@ -43,22 +43,34 @@ compileCoffee = (development, version = null) ->
   ]
   # Add files to compile in proper order
   options.push "src/coffee/#{file}" for file in COFFEE_FILES
-  execute "coffee", options
+  execute "coffee", options, ->
+    markVersion("#{outputPath}/#{outputFilename}", version)
 
 compileSass = (development, version = null) ->
   behavior = if development then "--watch" else "--update"
   outputPath = if development then "development/lib/css" else "lib/css"
-  outputFilename = if version then "crevasse-#{version}.css" else "crevasse.css"
+  outputFilename = "crevasse.css"
   options = [
     behavior,
     "src/sass/crevasse.scss:#{outputPath}/#{outputFilename}"
   ]
-  execute "sass", options
+  execute "sass", options, ->
+    markVersion("#{outputPath}/#{outputFilename}", version)
 
-gitTag = (version) ->
-  execute "git", ["tag", version]
+markVersion = (file, version) ->
+  comment = """
+    /*
+      Crevasse #{version}
+      Built by Nick Giancola: https://github.com/patbenatar
+      Details and source: https://github.com/patbenatar/crevasse
+      Demo: https://patbenatar.github.com/crevasse
+    */
 
-execute = (command, options) ->
+    """
+  tmpFile = "#{file}.tmp"
+  exec "echo \"#{comment}\" | cat - #{file} > #{tmpFile} && mv #{tmpFile} #{file}"
+
+execute = (command, options, callback = null) ->
   command = spawn command, options
   command.stderr.on 'data', (data) ->
     process.stderr.write data.toString()

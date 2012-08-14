@@ -104,7 +104,7 @@ theme, simply set `previewerStyle` to a CSS class of your own.
 
 ##### Code highlighter theme
 
-The previewer uses the "solarized-light" as its default code highlighting theme.
+The previewer uses "solarized-light" as its default code highlighting theme.
 However, you can load in any theme supported by Rianbow.js. [See available themes](https://github.com/ccampbell/rainbow/tree/master/themes)
 
 ### Support for flexible dimensions

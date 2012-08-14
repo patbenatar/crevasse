@@ -1,7 +1,5 @@
 class Crevasse.Previewer
 
-  DIALECT: "Gruber" # Maruku, Gruber
-
   options: null
 
   $el: null
@@ -39,7 +37,7 @@ class Crevasse.Previewer
     return @
 
   render: (text, caretPosition = null) ->
-    @$previewer.html markdown.toHTML(text, @DIALECT)
+    @$previewer.html @_parse(text)
     if caretPosition?
       offset = @_determineOffset text.substr(0, caretPosition)
       offset = 0 if offset < 0
@@ -54,7 +52,7 @@ class Crevasse.Previewer
       else return @options.previewerStyle
 
   _determineOffset: (text) ->
-    @$offsetDeterminer.html markdown.toHTML(text, @DIALECT)
+    @$offsetDeterminer.html @_parse(text)
     textHeight = @$offsetDeterminer.outerHeight()
     return textHeight - @height / 2
 
@@ -68,3 +66,6 @@ class Crevasse.Previewer
 
   _updateOffsetDeterminerDimensions: ->
     @$offsetDeterminer.width(@width)
+
+  _parse: (text) ->
+    marked(text)

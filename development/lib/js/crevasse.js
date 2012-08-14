@@ -144,8 +144,6 @@
 
   Crevasse.Previewer = (function() {
 
-    Previewer.prototype.DIALECT = "Gruber";
-
     Previewer.prototype.options = null;
 
     Previewer.prototype.$el = null;
@@ -188,7 +186,7 @@
       if (caretPosition == null) {
         caretPosition = null;
       }
-      this.$previewer.html(markdown.toHTML(text, this.DIALECT));
+      this.$previewer.html(this._parse(text));
       if (caretPosition != null) {
         offset = this._determineOffset(text.substr(0, caretPosition));
         if (offset < 0) {
@@ -213,7 +211,7 @@
 
     Previewer.prototype._determineOffset = function(text) {
       var textHeight;
-      this.$offsetDeterminer.html(markdown.toHTML(text, this.DIALECT));
+      this.$offsetDeterminer.html(this._parse(text));
       textHeight = this.$offsetDeterminer.outerHeight();
       return textHeight - this.height / 2;
     };
@@ -230,6 +228,10 @@
 
     Previewer.prototype._updateOffsetDeterminerDimensions = function() {
       return this.$offsetDeterminer.width(this.width);
+    };
+
+    Previewer.prototype._parse = function(text) {
+      return marked(text);
     };
 
     return Previewer;

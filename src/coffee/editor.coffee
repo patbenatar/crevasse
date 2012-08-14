@@ -3,12 +3,15 @@ class Crevasse.Editor
   options: null
   $el: null
   text: null
+  spaces: null
 
   constructor: (@$el, @options) ->
     _.extend @, Backbone.Events
 
     @$el.addClass("crevasse_editor")
     @$el.addClass(@_theme())
+
+    @_replaceTabs(@options.convertTabsToSpaces) if @options.convertTabsToSpaces
 
     @$el.bind "#{@_inputEventName()} change", @_onInput
     @$el.bind "paste", @_onPaste
@@ -34,6 +37,16 @@ class Crevasse.Editor
     setTimeout (=>
       @trigger "change"
     ), 20
+
+  _replaceTabs: (numSpaces) =>
+    @spaces = ""
+    @spaces += " " while numSpaces--
+    @$el.bind "keydown", @_parseTabsToSpaces
+
+  _parseTabsToSpaces: (event) =>
+    if event.keyCode == 9
+      event.preventDefault()
+      @$el.insertAtCaret(@spaces)
 
   _inputEventName: ->
     return "input" if @_supportsInputEvent()

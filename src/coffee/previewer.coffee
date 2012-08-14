@@ -1,5 +1,9 @@
 class Crevasse.Previewer
 
+  LANG_MAP:
+    'js': 'javascript'
+    'json': 'javascript'
+
   options: null
 
   $el: null
@@ -33,6 +37,18 @@ class Crevasse.Previewer
 
     # Listen for resizes and update dimensions accordingly
     @$el.bind("crevasse.resize", @_onResize)
+
+    marked.setOptions
+      gfm: true
+      pedantic: false
+      sanitize: true
+      highlight: (code, lang) =>
+        lang = if @LANG_MAP[lang]? then @LANG_MAP[lang] else lang
+        processed_code = null
+        if Rainbow?
+          Rainbow.color code, lang, (highlighted_code) =>
+            processed_code = highlighted_code
+        return processed_code || code
 
     return @
 

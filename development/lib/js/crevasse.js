@@ -20,7 +20,8 @@
       previewer: null,
       editorStyle: "default",
       usePreviewerReset: true,
-      previewerStyle: "github"
+      previewerStyle: "github",
+      convertTabsToSpaces: 2
     };
 
     Crevasse.prototype.editor = null;
@@ -71,9 +72,15 @@
 
     Editor.prototype.text = null;
 
+    Editor.prototype.spaces = null;
+
     function Editor($el, options) {
       this.$el = $el;
       this.options = options;
+      this._parseTabsToSpaces = __bind(this._parseTabsToSpaces, this);
+
+      this._replaceTabs = __bind(this._replaceTabs, this);
+
       this._onPaste = __bind(this._onPaste, this);
 
       this._onInput = __bind(this._onInput, this);
@@ -81,6 +88,9 @@
       _.extend(this, Backbone.Events);
       this.$el.addClass("crevasse_editor");
       this.$el.addClass(this._theme());
+      if (this.options.convertTabsToSpaces) {
+        this._replaceTabs(this.options.convertTabsToSpaces);
+      }
       this.$el.bind("" + (this._inputEventName()) + " change", this._onInput);
       this.$el.bind("paste", this._onPaste);
       return this;
@@ -118,6 +128,21 @@
       }), 20);
     };
 
+    Editor.prototype._replaceTabs = function(numSpaces) {
+      this.spaces = "";
+      while (numSpaces--) {
+        this.spaces += " ";
+      }
+      return this.$el.bind("keydown", this._parseTabsToSpaces);
+    };
+
+    Editor.prototype._parseTabsToSpaces = function(event) {
+      if (event.keyCode === 9) {
+        event.preventDefault();
+        return this.$el.insertAtCaret(this.spaces);
+      }
+    };
+
     Editor.prototype._inputEventName = function() {
       if (this._supportsInputEvent()) {
         return "input";
@@ -144,6 +169,11 @@
 
   Crevasse.Previewer = (function() {
 
+    Previewer.prototype.LANG_MAP = {
+      'js': 'javascript',
+      'json': 'javascript'
+    };
+
     Previewer.prototype.options = null;
 
     Previewer.prototype.$el = null;
@@ -157,6 +187,7 @@
     Previewer.prototype.height = null;
 
     function Previewer($el, options) {
+      var _this = this;
       this.$el = $el;
       this.options = options;
       this._onResize = __bind(this._onResize, this);
@@ -178,6 +209,22 @@
       });
       this.$el.append(this.$offsetDeterminer);
       this.$el.bind("crevasse.resize", this._onResize);
+      marked.setOptions({
+        gfm: true,
+        pedantic: false,
+        sanitize: true,
+        highlight: function(code, lang) {
+          var processed_code;
+          lang = _this.LANG_MAP[lang] != null ? _this.LANG_MAP[lang] : lang;
+          processed_code = null;
+          if (typeof Rainbow !== "undefined" && Rainbow !== null) {
+            Rainbow.color(code, lang, function(highlighted_code) {
+              return processed_code = highlighted_code;
+            });
+          }
+          return processed_code || code;
+        }
+      });
       return this;
     }
 

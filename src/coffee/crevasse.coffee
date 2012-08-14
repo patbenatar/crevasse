@@ -5,6 +5,7 @@ class Crevasse
     editorStyle: "default"
     usePreviewerReset: true
     previewerStyle: "github"
+    convertTabsToSpaces: 2
 
   editor: null
   previewer: null

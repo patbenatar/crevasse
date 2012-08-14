@@ -134,7 +134,9 @@ $("#your_editor").val("Some new value").trigger("change");
 
 ## Wishlist
 
-* Complete the github\_flavored\_markdown.js lib
+* Convert the textarea into a rich text editor and add Markdown syntax highlighting
+* Add some Markdown-specific editing improvements like adding a bullet automatically
+if you hit enter while already in a list.
 
 ## Contributing
 

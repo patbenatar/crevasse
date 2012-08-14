@@ -19,6 +19,8 @@ JavaScript
 * Comes with default themes (shown here) and supports custom themes
 * The raw Markdown is stored and edited in a simple textarea, making it easy to
 integrate with existing forms and backends
+* Supports Github Flavored Markdown and code highlighting
+* Supports converting tabs to a specified number of spaces in editor
 
 ## Installation and Usage
 
@@ -57,18 +59,16 @@ can find versions of each library guaranteed to work with Crevasse in the
 
 * [jquery](http://jquery.com)
 * [backbone.js](http://backbonejs.org/) (and therefore [underscore.js](http://underscorejs.org/)) \*
-* [jquery.caret](https://github.com/DrPheltRight/jquery-caret)
+* [jquery.caret](https://github.com/patbenatar/jquery-caret)
 * [jquery.scrollTo](http://demos.flesler.com/jquery/scrollTo/)
-* [github\_flavored\_markdown.js](http://github.com/patbenatar/github_flavored_markdown.js) \*\*
+* [marked.js](https://github.com/chjj/marked)
+* [rainbow.js](https://github.com/ccampbell/rainbow), if you would like code syntax highlighting
+* [a rainbow.js theme](https://github.com/ccampbell/rainbow/tree/master/themes), solarized-light is included in `dependencies/`
 
 \* The only part of Backbone that Crevasse requires is Backbone.Events, I just
 haven't extracted that or implemented a standalone Event Emitter like
 [Wolfy87/EventEmitter](https://github.com/Wolfy87/EventEmitter/). If someone
 wants to do this, that'd be appreciated.
-
-\*\* github\_flavored\_markdown.js is a work in progress. It is a fully functional
-Markdown parser, but its support for Github's \`\`\` code blocks is not yet
-complete.
 
 ## Advanced usage
 
@@ -79,7 +79,8 @@ complete.
   previewer: null, // required. jQuery object or selector string
   editorStyle: "default", // theme to use for editor
   usePreviewerReset: true, // reset CSS for previewer pane
-  previewerStyle: "github" // theme to use for previewer
+  previewerStyle: "github", // theme to use for previewer
+  convertTabsToSpaces: 2 // number of spaces or false
 }
 ```
 
@@ -100,6 +101,11 @@ Out of the box, the previewer uses the `github` theme. The rendered Markdown
 will be styled the same as what you are used to seeing on GitHub. You can
 customize this via the `previewerStyle` option. If you'd like to use a custom
 theme, simply set `previewerStyle` to a CSS class of your own.
+
+##### Code highlighter theme
+
+The previewer uses the "solarized-light" as its default code highlighting theme.
+However, you can load in any theme supported by Rianbow.js. [See available themes](https://github.com/ccampbell/rainbow/tree/master/themes)
 
 ### Support for flexible dimensions
 

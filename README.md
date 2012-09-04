@@ -11,12 +11,12 @@ http://patbenatar.github.com/crevasse
 
 * Edit Markdown in one pane and see the preview update live in another
 * Built for custom interfaces and layouts. You specify the editor and the
-previewer elements, what you see on this page is just one implementation
+previewer elements, what you see on the demo page is just one implementation
 * Preview automatically scrolls to keep the user centered on what they are
 editing
 * Supports flexible dimensions as well as dynamically changing dimensions with
 JavaScript
-* Comes with default themes (shown here) and supports custom themes
+* Comes with default themes (shown on demo page) and supports custom themes
 * The raw Markdown is stored and edited in a simple textarea, making it easy to
 integrate with existing forms and backends
 * Supports Github Flavored Markdown and code highlighting

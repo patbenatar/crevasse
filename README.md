@@ -58,17 +58,11 @@ can find versions of each library guaranteed to work with Crevasse in the
 `dependencies/` directory.
 
 * [jquery](http://jquery.com)
-* [backbone.js](http://backbonejs.org/) (and therefore [underscore.js](http://underscorejs.org/)) \*
 * [jquery.caret](https://github.com/patbenatar/jquery-caret)
 * [jquery.scrollTo](http://demos.flesler.com/jquery/scrollTo/)
 * [marked.js](https://github.com/chjj/marked)
 * [rainbow.js](https://github.com/ccampbell/rainbow), if you would like code syntax highlighting
 * [a rainbow.js theme](https://github.com/ccampbell/rainbow/tree/master/themes), solarized-light is included in `dependencies/`
-
-\* The only part of Backbone that Crevasse requires is Backbone.Events, I just
-haven't extracted that or implemented a standalone Event Emitter like
-[Wolfy87/EventEmitter](https://github.com/Wolfy87/EventEmitter/). If someone
-wants to do this, that'd be appreciated.
 
 ## Advanced usage
 

@@ -4,8 +4,10 @@ fs = require 'fs'
 {spawn, exec} = require 'child_process'
 
 COFFEE_FILES = [
+  "utils.coffee",
   "jquery.crevasse.coffee",
   "crevasse.coffee",
+  "events.coffee",
   "editor.coffee",
   "previewer.coffee"
 ]

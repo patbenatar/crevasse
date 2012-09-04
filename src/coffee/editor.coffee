@@ -1,4 +1,4 @@
-class Crevasse.Editor
+class Crevasse.Editor extends Crevasse.Events
 
   options: null
   $el: null
@@ -6,8 +6,6 @@ class Crevasse.Editor
   spaces: null
 
   constructor: (@$el, @options) ->
-    _.extend @, Backbone.Events
-
     @$el.addClass("crevasse_editor")
     @$el.addClass(@_theme())
 

@@ -23,7 +23,7 @@ class Crevasse
     @editor = new Crevasse.Editor($el, @options)
     @previewer = new Crevasse.Previewer(@options.previewer, @options)
 
-    @editor.on "change", @_onEditorChange, @
+    @editor.bind "change", @_onEditorChange
 
     # Handle initial value in editor textarea
     @_updatePreview() unless @editor.getText() == ""

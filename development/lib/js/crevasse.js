@@ -2,7 +2,31 @@
 (function() {
   var $, Crevasse,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+
+  Array.prototype.includes = function(value) {
+    var val, _i, _len;
+    for (_i = 0, _len = this.length; _i < _len; _i++) {
+      val = this[_i];
+      if (val === value) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  Array.prototype.remove = function(value) {
+    var i, val, _i, _len;
+    for (i = _i = 0, _len = this.length; _i < _len; i = ++_i) {
+      val = this[i];
+      if (val === value) {
+        this.splice(i, 1);
+      }
+    }
+    return this;
+  };
 
   $ = jQuery;
 
@@ -46,7 +70,7 @@
       }
       this.editor = new Crevasse.Editor($el, this.options);
       this.previewer = new Crevasse.Previewer(this.options.previewer, this.options);
-      this.editor.on("change", this._onEditorChange, this);
+      this.editor.bind("change", this._onEditorChange);
       if (this.editor.getText() !== "") {
         this._updatePreview();
       }
@@ -64,7 +88,47 @@
 
   })();
 
-  Crevasse.Editor = (function() {
+  Crevasse.Events = (function() {
+
+    function Events() {}
+
+    Events.prototype.bindings = {};
+
+    Events.prototype.bind = function(name, handler) {
+      if (this.bindings[name] == null) {
+        this.bindings[name] = [];
+      }
+      if (!this.bindings[name].includes(handler)) {
+        return this.bindings[name].push(handler);
+      }
+    };
+
+    Events.prototype.unbind = function(name, handler) {
+      if (this.bindings[name] != null) {
+        return this.bindings[name].remove(handler);
+      }
+    };
+
+    Events.prototype.trigger = function(name) {
+      var handler, _i, _len, _ref, _results;
+      if (this.bindings[name] != null) {
+        _ref = this.bindings[name];
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          handler = _ref[_i];
+          _results.push(handler());
+        }
+        return _results;
+      }
+    };
+
+    return Events;
+
+  })();
+
+  Crevasse.Editor = (function(_super) {
+
+    __extends(Editor, _super);
 
     Editor.prototype.options = null;
 
@@ -85,7 +149,6 @@
 
       this._onInput = __bind(this._onInput, this);
 
-      _.extend(this, Backbone.Events);
       this.$el.addClass("crevasse_editor");
       this.$el.addClass(this._theme());
       if (this.options.convertTabsToSpaces) {
@@ -165,7 +228,7 @@
 
     return Editor;
 
-  })();
+  })(Crevasse.Events);
 
   Crevasse.Previewer = (function() {
 

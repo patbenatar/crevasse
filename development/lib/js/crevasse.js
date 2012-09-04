@@ -6,28 +6,6 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
-  Array.prototype.includes = function(value) {
-    var val, _i, _len;
-    for (_i = 0, _len = this.length; _i < _len; _i++) {
-      val = this[_i];
-      if (val === value) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  Array.prototype.remove = function(value) {
-    var i, val, _i, _len;
-    for (i = _i = 0, _len = this.length; _i < _len; i = ++_i) {
-      val = this[i];
-      if (val === value) {
-        this.splice(i, 1);
-      }
-    }
-    return this;
-  };
-
   $ = jQuery;
 
   $.fn.extend({
@@ -98,14 +76,14 @@
       if (this.bindings[name] == null) {
         this.bindings[name] = [];
       }
-      if (!this.bindings[name].includes(handler)) {
+      if (!Crevasse.utils.includes(this.bindings[name], handler)) {
         return this.bindings[name].push(handler);
       }
     };
 
     Events.prototype.unbind = function(name, handler) {
       if (this.bindings[name] != null) {
-        return this.bindings[name].remove(handler);
+        return Crevasse.utils.remove(this.bindings[name], handler);
       }
     };
 
@@ -347,5 +325,29 @@
     return Previewer;
 
   })();
+
+  Crevasse.utils = {};
+
+  Crevasse.utils.includes = function(value) {
+    var val, _i, _len;
+    for (_i = 0, _len = this.length; _i < _len; _i++) {
+      val = this[_i];
+      if (val === value) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  Crevasse.utils.remove = function(value) {
+    var i, val, _i, _len;
+    for (i = _i = 0, _len = this.length; _i < _len; i = ++_i) {
+      val = this[i];
+      if (val === value) {
+        this.splice(i, 1);
+      }
+    }
+    return this;
+  };
 
 }).call(this);

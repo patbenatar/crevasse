@@ -4,10 +4,11 @@ class Crevasse.Events
 
   bind: (name, handler) ->
     @bindings[name] = [] unless @bindings[name]?
-    @bindings[name].push(handler) unless @bindings[name].includes(handler)
+    unless Crevasse.utils.includes(@bindings[name], handler)
+      @bindings[name].push(handler)
 
   unbind: (name, handler) ->
-    @bindings[name].remove(handler) if @bindings[name]?
+    Crevasse.utils.remove(@bindings[name], handler) if @bindings[name]?
 
   trigger: (name) ->
     handler() for handler in @bindings[name] if @bindings[name]?

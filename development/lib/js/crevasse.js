@@ -82,8 +82,15 @@
     };
 
     Events.prototype.unbind = function(name, handler) {
-      if (this.bindings[name] != null) {
-        return Crevasse.utils.remove(this.bindings[name], handler);
+      if (handler != null) {
+        if (this.bindings[name] != null) {
+          Crevasse.utils.remove(this.bindings[name], handler);
+        }
+        if (this.bindings[name].length < 1) {
+          return delete this.bindings[name];
+        }
+      } else {
+        return delete this.bindings[name];
       }
     };
 
@@ -127,6 +134,7 @@
 
       this._onInput = __bind(this._onInput, this);
 
+      window.bindings = this.bindings;
       this.$el.addClass("crevasse_editor");
       this.$el.addClass(this._theme());
       if (this.options.convertTabsToSpaces) {
@@ -328,10 +336,10 @@
 
   Crevasse.utils = {};
 
-  Crevasse.utils.includes = function(value) {
+  Crevasse.utils.includes = function(array, value) {
     var val, _i, _len;
-    for (_i = 0, _len = this.length; _i < _len; _i++) {
-      val = this[_i];
+    for (_i = 0, _len = array.length; _i < _len; _i++) {
+      val = array[_i];
       if (val === value) {
         return true;
       }
@@ -339,15 +347,14 @@
     return false;
   };
 
-  Crevasse.utils.remove = function(value) {
+  Crevasse.utils.remove = function(array, value) {
     var i, val, _i, _len;
-    for (i = _i = 0, _len = this.length; _i < _len; i = ++_i) {
-      val = this[i];
+    for (i = _i = 0, _len = array.length; _i < _len; i = ++_i) {
+      val = array[i];
       if (val === value) {
-        this.splice(i, 1);
+        array.splice(i, 1);
       }
     }
-    return this;
   };
 
 }).call(this);

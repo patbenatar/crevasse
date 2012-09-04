@@ -1,11 +1,11 @@
 Crevasse.utils = {}
 
-Crevasse.utils.includes = (value) ->
-  for val in @
+Crevasse.utils.includes = (array, value) ->
+  for val in array
     return true if val == value
   return false
 
-Crevasse.utils.remove = (value) ->
-  for val, i in @
-    @splice(i, 1) if val == value
-  return @
+Crevasse.utils.remove = (array, value) ->
+  for val, i in array
+    array.splice(i, 1) if val == value
+  return

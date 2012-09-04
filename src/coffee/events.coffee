@@ -8,7 +8,11 @@ class Crevasse.Events
       @bindings[name].push(handler)
 
   unbind: (name, handler) ->
-    Crevasse.utils.remove(@bindings[name], handler) if @bindings[name]?
+    if handler?
+      Crevasse.utils.remove(@bindings[name], handler) if @bindings[name]?
+      delete @bindings[name] if @bindings[name].length < 1
+    else
+      delete @bindings[name]
 
   trigger: (name) ->
     handler() for handler in @bindings[name] if @bindings[name]?

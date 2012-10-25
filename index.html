@@ -19,6 +19,20 @@
     $(function () {
       var $editor = $("#the_editor");
       var $previewer = $("#the_previewer")
+
+      // Browsers that support localstorage should persist any changes
+      if (typeof localStorage !== "undefined") {
+        var persistedValue = localStorage.getItem("editor");
+
+        if (persistedValue) {
+          $editor.val(persistedValue);
+        }
+
+        $editor.bind("keyup change", function () {
+          localStorage.setItem("editor", $editor.val());
+        });
+      }
+
       $editor.crevasse({
         previewer: $previewer
       });

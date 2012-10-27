@@ -132,12 +132,6 @@ $("#your_editor").val("Some new value").trigger("change");
 * Add some Markdown-specific editing improvements like adding a bullet automatically
 if you hit enter while already in a list.
 
-## Caveats
-
-For compatibility reasons, Crevasse disables Rainbow.js' auto-highlighting
-functionality. This means that if you're using Rainbow.js elsewhere in your app,
-you'll need to initialize it yourself on specific elements.
-
 ## Contributing
 
 1. Fork and clone your fork

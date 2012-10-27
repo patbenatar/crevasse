@@ -54,6 +54,10 @@ class Crevasse.Previewer
 
   render: (text, caretPosition = null) ->
     @$previewer.html @_parse(text)
+
+    # Stop's Rainbow.js from double-highlighting
+    @$previewer.find("code").addClass("rainbow") if Rainbow?
+
     if caretPosition?
       offset = @_determineOffset text.substr(0, caretPosition)
       offset = 0 if offset < 0

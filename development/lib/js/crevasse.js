@@ -134,7 +134,6 @@
 
       this._onInput = __bind(this._onInput, this);
 
-      window.bindings = this.bindings;
       this.$el.addClass("crevasse_editor");
       this.$el.addClass(this._theme());
       if (this.options.convertTabsToSpaces) {
@@ -356,5 +355,11 @@
       }
     }
   };
+
+  if (window.removeEventListener) {
+    window.removeEventListener("load", Rainbow.color);
+  } else {
+    window.detachEvent("onload", Rainbow.color);
+  }
 
 }).call(this);

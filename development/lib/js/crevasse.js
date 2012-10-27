@@ -282,6 +282,9 @@
         caretPosition = null;
       }
       this.$previewer.html(this._parse(text));
+      if (typeof Rainbow !== "undefined" && Rainbow !== null) {
+        this.$previewer.find("code").addClass("rainbow");
+      }
       if (caretPosition != null) {
         offset = this._determineOffset(text.substr(0, caretPosition));
         if (offset < 0) {
@@ -355,11 +358,5 @@
       }
     }
   };
-
-  if (window.removeEventListener) {
-    window.removeEventListener("load", Rainbow.color);
-  } else {
-    window.detachEvent("onload", Rainbow.color);
-  }
 
 }).call(this);

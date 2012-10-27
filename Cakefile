@@ -9,8 +9,7 @@ COFFEE_FILES = [
   "events.coffee",
   "editor.coffee",
   "previewer.coffee",
-  "utils.coffee",
-  "rainbow_patch"
+  "utils.coffee"
 ]
 
 task "build", "Package Crevasse for distribution", ->
